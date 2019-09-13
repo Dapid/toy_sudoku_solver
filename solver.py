@@ -114,13 +114,18 @@ def is_solved(solution):
 
 def lookahead(candidates, solution):
     # pick one of the smallest candidates:
+    ## Pythran doesn't like key to min :(
     # selected = min(((x, v) for x, v in candidates.items() if len(v) > 0), key=lambda x: len(x[1]))
-    #selected = sorted([(x, v) for x, v in candidates.items() if len(v) > 0], key=lambda x: len(x[1]))[0]
+    ## A full sort is unnecesary. And makes compilation take forever.
+    # selected = sorted([(x, v) for x, v in candidates.items() if len(v) > 0], key=lambda x: len(x[1]))[0]
 
-    len_selected_v = 10
-    for k, v in candidates.items():
-        if len(v) < len_selected_v:
-            selected_k = k
+    # Rolling min manually
+    selected_k = (0, 0)
+    selected_v = candidates[(0, 0)]
+    len_selected_v = 50
+    for x, v in candidates.items():
+        if 0 < len(v) < len_selected_v:
+            selected_k = x
             selected_v = v
             len_selected_v = len(v)
     selected = (selected_k, selected_v)
