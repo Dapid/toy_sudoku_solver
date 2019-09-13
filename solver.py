@@ -140,8 +140,9 @@ def lookahead(candidates, solution):
     return vector
 
 
+# pythran export solve_lookahead(int8[][], bool)
 # pythran export solve_lookahead(int8[][])
-def solve_lookahead(initial_board):
+def solve_lookahead(initial_board, verbose=False):
     candidates = {(i, j): set(range(1, 10)) for i in range(9) for j in range(9)}
     possibilities = [(candidates, initial_board)]
     pp = possibilities[0]
@@ -153,12 +154,24 @@ def solve_lookahead(initial_board):
         new_possibilities = []
         for p in possibilities:
             new_possibilities.extend(lookahead(p[0], p[1]))
+
+        if verbose:
+            print('Increasing from', len(possibilities), 'to', len(new_possibilities))
+
         valid_possibilities = []
         for p in new_possibilities:
             recursive_single_elimination(p[0], p[1])
             if validate(p[1]):
                 valid_possibilities.append(p)
+
+        if verbose:
+            diff = len(new_possibilities) - len(valid_possibilities)
+            if diff:
+                print('Removed:', diff, 'invalid options')
+
         if any(is_solved(p[1]) for p in valid_possibilities):
             return [p[1] for p in valid_possibilities if is_solved(p[1])]
         possibilities = valid_possibilities
-        # print('Length:', len(possibilities))
+
+        if verbose:
+            print('Length:', len(possibilities))
