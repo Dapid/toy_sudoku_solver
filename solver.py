@@ -96,22 +96,13 @@ def single_elimination(candidates, solution):
 def validate(solution):
     for i in range(9):
         if np.bincount(solution[i, :])[1:].max() > 1:
-            # counter = collections.Counter(solution[i, :])
-            # del counter[0]
-            # if counter.most_common(1)[0][1] > 1:
             return False
         if np.bincount(solution[:, i])[1:].max() > 1:
-            # counter = collections.Counter(solution[:, i])
-            # del counter[0]
-            # if counter.most_common(1)[0][1] > 1:
             return False
     for i in range(3):
         for j in range(3):
             i_low, i_hi = 3 * (i // 3), 3 * (i // 3) + 3
             j_low, j_hi = 3 * (j // 3), 3 * (j // 3) + 3
-            # counter = collections.Counter(solution[i_low:i_hi, j_low:j_hi].ravel())
-            # del counter[0]
-            # if counter.most_common(1)[0][1] > 1:
             if np.bincount(solution[i_low:i_hi, j_low:j_hi].ravel())[1:].max() > 1:
                 return False
     return True
