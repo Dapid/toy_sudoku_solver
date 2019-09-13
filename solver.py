@@ -175,3 +175,9 @@ def solve_lookahead(initial_board, verbose=False):
 
         if verbose:
             print('Length:', len(possibilities))
+
+#pythran export solve_simple(int8[][])
+def solve_simple(initial_board):
+    candidates = {(i, j): set(range(1, 10)) for i in range(9) for j in range(9)}
+    recursive_single_elimination(candidates, initial_board)
+    return initial_board
