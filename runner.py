@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     solution = np.array(solution, dtype=np.int8)
 
-    solutions = solver.solve_lookahead(solution, False)
+    solutions = solver.solve_lookahead(solution, True)
 
     print('Found', len(solutions), 'solutions')
 
